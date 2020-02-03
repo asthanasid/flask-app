@@ -4,7 +4,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...at correct location
+      - echo Logging in to Amazon ECR...at correct location - 2
       - echo $AWS_DEFAULT_REGION
       - aws --version
       - $(aws ecr get-login --region ap-south-1 --no-include-email)
