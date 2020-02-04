@@ -9,19 +9,16 @@ phases:
       - aws --version
       - $(aws ecr get-login --region ap-south-1 --no-include-email)
       - REPOSITORY_URI=036389678501.dkr.ecr.ap-south-1.amazonaws.com/sid-ecr
-      - version=$(git rev-parse --short=12 HEAD)
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image....
       - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$version
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$version
       - echo Writing image definitions file...
       - printf '[{"name":"nodeapp","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json 
